@@ -5,6 +5,7 @@ const includeNumbersElement = document.getElementById('includeNumbers')
 const includeSymbolsElement = document.getElementById('includeSymbols')
 const form = document.getElementById('passwordGeneratorForm')
 const passwordDisplay = document.getElementById('passwordDisplay')
+const pass = document.getElementById("password-copy")
 
 const LOWERCASE_CHAR_CODES = arrayFromLowToHigh(97, 122)
 const UPPERCASE_CHAR_CODES = arrayFromLowToHigh(65, 90)
@@ -32,11 +33,12 @@ form.addEventListener('submit', e => {
 })
 
 function generatePassword(characterAmount, includeUppercase, includeNumbers, includeSymbols) {
+  pass.style.visibility = "hidden"
   let charCodes = LOWERCASE_CHAR_CODES
   if (includeUppercase) charCodes = charCodes.concat(UPPERCASE_CHAR_CODES)
   if (includeNumbers) charCodes = charCodes.concat(NUMBER_CHAR_CODES)
-  if (includeSymbols) charCodes = charCodes.concat  (SYMBOL_CHAR_CODES)
-  
+  if (includeSymbols) charCodes = charCodes.concat(SYMBOL_CHAR_CODES)
+
   const passwordCharacters = []
   for (let i = 0; i < characterAmount; i++) {
     const characterCode = charCodes[Math.floor(Math.random() * charCodes.length)]
@@ -53,9 +55,24 @@ function arrayFromLowToHigh(low, high) {
   return array
 }
 
-function syncCharacterAmount(e){
+function syncCharacterAmount(e) {
   const value = e.target.value
   characterAmountNumber.value = value
   characterAmountRange.value = value
 }
 
+// Copy Password to clipboard
+function myFunction() {
+  /* Get the text field */
+  var copyText = passwordDisplay
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText.value);
+
+  /* Alert the copied text */
+  pass.style.visibility = "visible"
+}
